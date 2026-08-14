@@ -1,0 +1,199 @@
+/* Modern Login Styles - Black & Gold Theme */
+
+#loginScreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+}
+
+.login-container {
+    background: #1a1a1a;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(212, 175, 55, 0.3);
+    border: 1px solid var(--primary-color, #d4af37);
+    padding: 3rem;
+    max-width: 450px;
+    width: 100%;
+    animation: slideIn 0.5s ease;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-logo {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #d4af37 0%, #f4e5a1 50%, #d4af37 100%);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2.5rem;
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+}
+
+.login-container h1 {
+    color: var(--primary-color, #d4af37);
+    margin-bottom: 0.5rem;
+    font-size: 1.875rem;
+    font-weight: 700;
+}
+
+.login-container > p {
+    color: #e5e5e5;
+    margin-bottom: 2rem;
+    font-size: 0.9375rem;
+}
+
+.login-form {
+    margin-bottom: 1.5rem;
+}
+
+#loginError {
+    display: none;
+    padding: 0.75rem;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    color: #991b1b;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    animation: slideIn 0.3s ease;
+}
+
+.login-container .btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    background: var(--primary-color, #d4af37);
+    color: #1a1a1a;
+}
+
+.login-container .btn:hover {
+    background: var(--primary-dark, #b8960f);
+}
+
+.hint-text {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #2d2d2d;
+    font-size: 0.8125rem;
+    color: #9ca3af;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.hint-text strong {
+    color: var(--primary-color, #d4af37);
+}
+
+.hint-text code {
+    background: #2d2d2d;
+    padding: 0.125rem 0.375rem;
+    border-radius: 4px;
+    color: var(--primary-color, #d4af37);
+}
+
+.login-footer {
+    margin-top: 2rem;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 0.8125rem;
+}
+
+.login-footer a {
+    color: var(--primary-color, #d4af37);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-footer a:hover {
+    color: var(--primary-light, #f4e5a1);
+    text-decoration: underline;
+}
+
+/* Security indicator */
+.security-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: #2d2d2d;
+    border-radius: 8px;
+    border: 1px solid var(--primary-color, #d4af37);
+    font-size: 0.8125rem;
+    color: var(--primary-color, #d4af37);
+}
+
+.security-indicator svg {
+    width: 16px;
+    height: 16px;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    color: var(--primary-color, #d4af37);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--primary-color, #d4af37);
+    border-radius: 8px;
+    font-size: 0.9375rem;
+    background: #0a0a0a;
+    color: #e5e5e5;
+    transition: all 0.2s ease;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-light, #f4e5a1);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.input-group input::placeholder {
+    color: #6b7280;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 2rem 1.5rem;
+    }
+
+    .login-container h1 {
+        font-size: 1.5rem;
+    }
+
+    .login-logo {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+}

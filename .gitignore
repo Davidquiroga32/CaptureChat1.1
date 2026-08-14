@@ -1,0 +1,16 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno / secretos
+.env
+.env.*
+!.env.example
+
+# Vercel
+.vercel/
+
+# Binarios / instaladores
+*.exe
+
+# Prisma generado
+generated/prisma/

@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Keyword {
+  id      Int    @id @default(autoincrement())
+  keyword String @unique @db.VarChar(255)
+}
+
+model Screenshot {
+  id         Int       @id @default(autoincrement())
+  filename   String    @db.VarChar(255)
+  filepath   String    @db.Text
+  publicId   String?   @db.VarChar(255)
+  thumbUrl   String?   @db.Text
+  deviceName String?   @db.VarChar(100)
+  keyword    String?   @db.VarChar(255)
+  hash       String?   @db.VarChar(64)
+  createdAt  DateTime  @default(now())
+  deletedAt  DateTime?
+}
+
+model Usuario {
+  id       Int    @id @default(autoincrement())
+  user     String @unique @db.VarChar(50)
+  password String @db.VarChar(255)
+  role     String @default("WORKER")
+}

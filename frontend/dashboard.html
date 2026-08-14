@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Panel de administración seguro para monitoreo de capturas web">
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Content-Security-Policy"
+        content="
+        default-src 'self';
+        connect-src 'self' https://capturechat-backend-v2-production.up.railway.app;
+        img-src 'self' https://f005.backblazeb2.com https://capturechat-backend-v2-production.up.railway.app data: blob:;
+        script-src 'self' 'unsafe-inline';
+        style-src 'self' 'unsafe-inline';
+        ">
+    <title>Panel Admin - Monitoreo</title>
+    <link rel="stylesheet" href="./css/dashboard.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/keyword-tags.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#d4af37">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+</head>
+<body>
+    <div id="dashboard" class="container">
+
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <div class="header-logo" id="headerLogo">📸</div>
+                <h1 id="headerAppName">Webcam Monitor Pro</h1>
+            </div>
+            <div class="header-right">
+                <div class="header-info">
+                    <div class="header-user">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        <span id="userInfo">admin</span>
+                    </div>
+                </div>
+                <button class="btn" id="logoutBtn">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+                        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                    </svg>
+                    Cerrar Sesión
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-tab="screenshots">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <span>Galería</span>
+            </button>
+            <button class="nav-tab" data-tab="dictionary">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                </svg>
+                <span>Palabras Clave</span>
+            </button>
+            <button class="nav-tab admin-only" data-tab="settings" id="settingsTab" style="display:none;">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span>Configuración</span>
+            </button>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+
+            <!-- ── Galería ─────────────────────────────────────────── -->
+            <div id="screenshots" class="tab-content active">
+
+                <!-- Banner de límite de capturas -->
+                <div id="capLimitBanner" class="cap-limit-banner" style="display:none;"></div>
+
+                <!-- Stats + etiquetas -->
+                <div class="stats">
+                    <div class="stat-card stat-card-full">
+                        <div class="stat-top">
+                            <div>
+                                <h3 id="screenshotCount">0</h3>
+                                <p>Capturas Guardadas</p>
+                            </div>
+                            <button class="btn btn-small" id="refreshKeywordTags" title="Actualizar etiquetas"
+                                style="background:transparent;border:1px solid var(--primary-color);color:var(--primary-color);padding:0.35rem 0.6rem;">
+                                🔄
+                            </button>
+                        </div>
+                        <div id="keywordTags" class="keyword-tags-container">
+                            <p class="keyword-tags-loading">Cargando etiquetas...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Acciones -->
+                <div class="section-header">
+                    <h2>Capturas de Pantalla</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-small btn-success" id="exportScreenshots">Exportar Todo</button>
+                        <button class="btn btn-small" id="restoreBtn"
+                            style="background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.5);color:#93c5fd;">
+                            ↩ Recuperar
+                        </button>
+                        <button class="btn btn-small btn-danger"  id="clearAllScreenshots">Limpiar Todo</button>
+                    </div>
+                </div>
+
+                <!-- Upload zone -->
+                <div class="upload-zone" id="uploadZone">
+                    <input type="file" id="screenshotFile" accept="image/*" style="display:none;" aria-label="Seleccionar imagen">
+                    <p class="upload-title">📤 Subir Captura</p>
+                    <p class="upload-subtitle">Haz clic o arrastra una imagen aquí</p>
+                </div>
+
+                <!-- Búsqueda -->
+                <div class="filter-bar">
+                    <div class="search-box">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <input type="search" id="screenshotSearch" placeholder="Buscar por dispositivo o archivo...">
+                    </div>
+                    <div id="screenshotFilters" class="filter-buttons"></div>
+                </div>
+
+                <div id="screenshotsList" class="screenshots-grid"></div>
+                <div id="screenshotsPagination"></div>
+            </div>
+
+            <!-- ── Palabras Clave ──────────────────────────────────── -->
+            <div id="dictionary" class="tab-content">
+                <div class="stats">
+                    <div class="stat-card">
+                        <h3 id="wordCount">0</h3>
+                        <p>Palabras en el Diccionario</p>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2>Diccionario de Palabras Clave</h2>
+                    <div class="section-actions">
+                        <button class="btn btn-small btn-success" id="importWords">Importar</button>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <p>Agrega palabras clave que quieres monitorear. La aplicación tomará capturas de pantalla cuando detecte estas palabras en los computadores monitoreados.</p>
+                </div>
+
+                <div class="add-form">
+                    <input type="text" id="newWord" placeholder="Escribe una palabra clave..." maxlength="50">
+                    <button class="btn" id="addWordBtn">Agregar Palabra</button>
+                </div>
+
+                <!-- Mensaje de feedback al agregar palabra -->
+                <div id="wordMessage" class="word-message"></div>
+
+                <div id="wordList"></div>
+            </div>
+
+            <!-- ── Configuración (solo ADMIN) ─────────────────────── -->
+            <div id="settings" class="tab-content">
+                <div class="section-header">
+                    <h2>⚙️ Configuración del Sistema</h2>
+                </div>
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <div class="settings-card-header">
+                            <span class="settings-card-icon">🎨</span>
+                            <h3>Identidad Visual</h3>
+                        </div>
+                        <p class="settings-card-desc">Personaliza el logo y el nombre de la aplicación. Los cambios se guardan en el navegador.</p>
+
+                        <div class="settings-field">
+                            <label>Logo de la aplicación</label>
+                            <div class="logo-preview-area">
+                                <div class="logo-preview-box" id="logoPreviewBox">
+                                    <span id="logoPreviewEmoji">📸</span>
+                                    <img id="logoPreviewImg" src="" alt="Logo" style="display:none;">
+                                </div>
+                                <div class="logo-preview-actions">
+                                    <button class="btn btn-small" id="changeLogoBtnSettings">🖼️ Cambiar logo</button>
+                                    <button class="btn btn-small btn-danger" id="removeLogoBtnSettings" style="display:none;">🗑️ Quitar logo</button>
+                                    <input type="file" id="logoFileInputSettings" accept="image/*" style="display:none;">
+                                    <p class="settings-hint">PNG, JPG o WebP. Máx 2MB.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-field">
+                            <label for="appNameInput">Nombre de la aplicación</label>
+                            <div class="settings-input-row">
+                                <input type="text" id="appNameInput" placeholder="Ej: Monitor Empresarial Pro" maxlength="50">
+                                <button class="btn" id="saveAppNameBtn">Guardar</button>
+                            </div>
+                            <p class="settings-hint">Aparece en el login y en el header.</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <div class="settings-card-header">
+                            <span class="settings-card-icon">👁️</span>
+                            <h3>Vista Previa del Login</h3>
+                        </div>
+                        <p class="settings-card-desc">Así se verá la pantalla de inicio de sesión.</p>
+                        <div class="login-preview">
+                            <div class="login-preview-logo" id="previewLogoBox">
+                                <span id="previewLogoEmoji">📸</span>
+                                <img id="previewLogoImg" src="" alt="" style="display:none;">
+                            </div>
+                            <div class="login-preview-name" id="previewAppName">Webcam Monitor Pro</div>
+                            <div class="login-preview-sub">Panel de Administración Seguro</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal de vista previa con navegación -->
+    <div id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Vista previa</h2>
+                <span id="modalCounter" class="modal-counter"></span>
+            </div>
+            <div class="modal-body" style="position:relative;">
+
+                <!-- Flecha izquierda -->
+                <button id="modalPrev" class="modal-nav-btn modal-nav-prev" title="Anterior (←)">
+                    &#8249;
+                </button>
+
+                <img id="modalImage" src="" alt="Captura"
+                    style="width:100%;height:auto;border-radius:8px;display:block;user-select:none;">
+
+                <!-- Flecha derecha -->
+                <button id="modalNext" class="modal-nav-btn modal-nav-next" title="Siguiente (→)">
+                    &#8250;
+                </button>
+
+                <div class="modal-meta" style="margin-top:0.75rem;">
+                    <p id="modalDevice"   class="screenshot-device"></p>
+                    <p id="modalKeyword"  class="screenshot-keyword" style="color:var(--primary-color);font-size:0.8rem;"></p>
+                    <p id="modalFilename" class="screenshot-title"></p>
+                    <p id="modalInfo"     class="screenshot-date"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="modalClose" class="btn btn-danger btn-small">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Registro - Webcam Monitor Pro">
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Content-Security-Policy"
+        content="
+        default-src 'self';
+        connect-src 'self' https://capturechat-backend-v2-production.up.railway.app;
+        img-src 'self' https://capturechat-backend-v2-production.up.railway.app data:;
+        script-src 'self' 'unsafe-inline';
+        style-src 'self' 'unsafe-inline';
+        ">
+
+    <title>Registro - Webcam Monitor Pro</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📸</text></svg>">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/register.css">
+</head>
+<body>
+    <!-- Register Screen -->
+    <div id="registerScreen">
+        <div class="register-container">
+            <div class="register-header">
+                <div class="register-logo">📸</div>
+                <h1>Webcam Monitor Pro</h1>
+                <p>Crear Nueva Cuenta</p>
+            </div>
+
+            <div id="registerError"></div>
+            <div id="registerSuccess"></div>
+
+            <form class="register-form" id="registerForm">
+                <div class="input-group">
+                    <label for="newUsername">Usuario</label>
+                    <input 
+                        type="text" 
+                        id="newUsername" 
+                        placeholder="Elige tu usuario"
+                        autocomplete="username"
+                        required
+                    >
+                    <small class="input-hint">4-20 caracteres, sin espacios</small>
+                </div>
+
+                <div class="input-group">
+                    <label for="newPassword">Contraseña</label>
+                    <input
+                        type="password"
+                        id="newPassword"
+                        placeholder="Crea una contraseña fuerte"
+                        autocomplete="new-password"
+                        required
+                    >
+                    <small class="input-hint">Mínimo 8 caracteres, incluir mayúsculas, números y símbolos</small>
+                    <div class="password-strength">
+                        <div class="strength-meter" id="strengthMeter"></div>
+                        <span class="strength-text" id="strengthText">Seguridad: Débil</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="confirmPassword">Confirmar Contraseña</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Repite tu contraseña"
+                        autocomplete="new-password"
+                        required
+                    >
+                    <small class="input-hint">Las contraseñas deben coincidir</small>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">
+                        Acepto los <a href="#" class="link">Términos y Condiciones</a> y la <a href="#" class="link">Política de Privacidad</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="registerBtn">
+                    Crear Cuenta
+                </button>
+            </form>
+
+            <div class="register-divider">
+                <span>¿Ya tienes cuenta?</span>
+            </div>
+
+            <a href="./index.html" class="btn btn-secondary">
+                Volver al Inicio de Sesión
+            </a>
+
+            <div class="security-indicator">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+                Conexión Segura con Encriptación
+            </div>
+
+            <div class="login-footer">
+                <p>Webcam Monitor Pro v2.0 - Seguro y Profesional</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="./js/register.js"></script>
+</body>
+</html>
