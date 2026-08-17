@@ -11,7 +11,7 @@ function requireAdmin(req, res, next) {
     next();
 }
 
-router.post("/register", register);
+router.post("/register", verifyToken, requireAdmin, register);
 router.post("/login", login);
 
 // Gestión de usuarios (solo ADMIN)

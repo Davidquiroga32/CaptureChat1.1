@@ -100,6 +100,13 @@ class RegisterManager {
             return;
         }
 
+        const token = localStorage.getItem("sessionToken");
+        if (!token || localStorage.getItem("role") !== "ADMIN") {
+            this.showError("Debes iniciar sesión como administrador para crear usuarios.");
+            setTimeout(() => { window.location.href = "index.html"; }, 1500);
+            return;
+        }
+
         this.registerBtn.disabled = true;
         this.registerBtn.textContent = "Creando...";
 
@@ -109,14 +116,17 @@ class RegisterManager {
 
             const response = await fetch(`${API_BASE}/api/auth/register`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token,
+                },
                 body: JSON.stringify(userData),
             });
 
             const result = await response.json();
 
             if (!response.ok) {
-                this.showError(result.message || "Error al registrar.");
+                this.showError(result.message || result.error || "Error al registrar.");
                 return;
             }
 
