@@ -1,4 +1,4 @@
-const API_BASE = "https://capturechat-backend-v2-production.up.railway.app";
+const API_BASE = "";
 
 // ── Cargar branding guardado (logo y nombre personalizados desde Configuración) ──
 (function loadBranding() {

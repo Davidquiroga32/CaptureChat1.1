@@ -1,5 +1,5 @@
-// Base de la API en Railway
-const API_BASE = "https://capturechat-backend-v2-production.up.railway.app";
+// Base de la API: misma URL, nginx reenvía /api al backend
+const API_BASE = "";
 
 class RegisterManager {
     constructor() {

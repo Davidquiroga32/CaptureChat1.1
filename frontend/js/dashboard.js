@@ -8,7 +8,7 @@
  *   4. Navegación ← → entre imágenes en el modal + swipe táctil para móvil
  */
 
-const API_BASE = "https://capturechat-backend-v2-production.up.railway.app";
+const API_BASE = "";
 
 
 // ===== Estado global =====
