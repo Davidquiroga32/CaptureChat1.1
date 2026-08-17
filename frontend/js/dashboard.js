@@ -24,7 +24,9 @@ function isAdmin()     { return getUserRole() === "ADMIN"; }
 function applyRoleRestrictions() {
     if (isAdmin()) {
         const settingsTab = document.getElementById("settingsTab");
+        const usersTab = document.getElementById("usersTab");
         if (settingsTab) settingsTab.style.display = "";
+        if (usersTab) usersTab.style.display = "";
         return;
     }
     const clearAllBtn = document.getElementById("clearAllScreenshots");
@@ -85,6 +87,7 @@ function initializeDashboard() {
     initializeTabs();
     initializeButtons();
     initializeSettings();
+    initializeUsers();
     initializeModal();
     setupUploadArea();
     loadDashboardData();
@@ -815,6 +818,98 @@ function applyBrandingLive(nombre, logo) {
         const l = document.getElementById("headerLogo");
         if (l) l.innerHTML = `<img src="${logo}" alt="Logo" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">`;
     }
+}
+
+// ===== Gestión de Usuarios (solo ADMIN) =====
+function initializeUsers() {
+    if (!isAdmin()) return;
+    const addUserBtn = document.getElementById("addUserBtn");
+    if (addUserBtn) addUserBtn.addEventListener("click", createUser);
+    loadUsers();
+}
+
+async function loadUsers() {
+    const list = document.getElementById("usersList");
+    if (!list) return;
+    try {
+        const res = await authFetch(`${API_BASE}/api/auth/users`);
+        if (!res) return;
+        const users = await res.json();
+        if (!Array.isArray(users)) return;
+        renderUsers(users);
+    } catch (err) {
+        console.error("Error cargando usuarios:", err);
+        list.innerHTML = '<p style="color:#fca5a5;text-align:center;padding:1rem;">Error al cargar usuarios.</p>';
+    }
+}
+
+function renderUsers(users) {
+    const list = document.getElementById("usersList");
+    if (!list) return;
+    if (users.length === 0) {
+        list.innerHTML = '<p style="color:#9ca3af;text-align:center;padding:1rem;">No hay usuarios registrados.</p>';
+        return;
+    }
+    list.innerHTML = users.map(u => `
+        <div class="user-item">
+            <div class="user-item-info">
+                <span class="user-item-name">${escapeHtml(u.user)}</span>
+                <span class="role-badge role-badge-${u.role === 'ADMIN' ? 'admin' : 'worker'}">${escapeHtml(u.role)}</span>
+            </div>
+            <button class="btn btn-danger btn-small" onclick="deleteUser(${u.id})">Eliminar</button>
+        </div>
+    `).join("");
+}
+
+async function createUser() {
+    const userInput = document.getElementById("newUserUser");
+    const passInput = document.getElementById("newUserPassword");
+    const roleInput = document.getElementById("newUserRole");
+    const msgEl = document.getElementById("userMessage");
+    const user = userInput ? userInput.value.trim() : "";
+    const password = passInput ? passInput.value : "";
+    const role = roleInput ? roleInput.value : "WORKER";
+
+    if (msgEl) { msgEl.textContent = ""; msgEl.className = "word-message"; }
+    if (!user) return alert("Ingresa un usuario");
+    if (!password || password.length < 8) return alert("La contraseña debe tener al menos 8 caracteres");
+
+    const res = await authFetch(`${API_BASE}/api/auth/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user, password, role }),
+    });
+    if (!res) return;
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+        if (msgEl) {
+            msgEl.textContent = "❌ " + (data.message || "Error al crear el usuario.");
+            msgEl.className = "word-message word-message-error";
+        }
+        return;
+    }
+
+    if (msgEl) {
+        msgEl.textContent = `✅ Usuario "${user}" creado como ${role}.`;
+        msgEl.className = "word-message word-message-ok";
+        setTimeout(() => { msgEl.textContent = ""; msgEl.className = "word-message"; }, 3000);
+    }
+    if (userInput) userInput.value = "";
+    if (passInput) passInput.value = "";
+    loadUsers();
+}
+
+async function deleteUser(id) {
+    if (!confirm("¿Eliminar este usuario? Esta acción no se puede deshacer.")) return;
+    const res = await authFetch(`${API_BASE}/api/auth/users/${id}`, { method: "DELETE" });
+    if (!res || !res.ok) {
+        const data = res ? await res.json().catch(() => ({})) : {};
+        alert(data.message || "Error al eliminar el usuario.");
+        return;
+    }
+    loadUsers();
 }
 
 // ===== Logout =====

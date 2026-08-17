@@ -78,6 +78,15 @@
                     <small class="input-hint">Las contraseñas deben coincidir</small>
                 </div>
 
+                <div class="input-group">
+                    <label for="role">Tipo de cuenta</label>
+                    <select id="role" name="role" required>
+                        <option value="WORKER" selected>WORKER (Trabajador)</option>
+                        <option value="ADMIN">ADMIN (Administrador)</option>
+                    </select>
+                    <small class="input-hint">El rol ADMIN tiene acceso completo al panel.</small>
+                </div>
+
                 <div class="checkbox-group">
                     <input type="checkbox" id="terms" required>
                     <label for="terms">

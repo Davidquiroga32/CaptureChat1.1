@@ -1,14 +1,22 @@
 import { Router } from "express";
-import { register, login } from "../controllers/auth.controller.js";
+import { register, login, listUsers, createUser, deleteUser } from "../controllers/auth.controller.js";
+import verifyToken from "../middlewares/verifyToken.js";
 
 const router = Router();
+
+function requireAdmin(req, res, next) {
+    if (!req.user || req.user.role !== "ADMIN") {
+        return res.status(403).json({ error: "Solo el administrador puede realizar esta acción" });
+    }
+    next();
+}
 
 router.post("/register", register);
 router.post("/login", login);
 
-// Cuando el servidor esté estable, volvemos a activar la protegida
-// import verifyToken from "../middlewares/verifyToken.js";
-// import { protectedRoute } from "../controllers/auth.controller.js";
-// router.get("/protected", verifyToken, protectedRoute);
+// Gestión de usuarios (solo ADMIN)
+router.get("/users", verifyToken, requireAdmin, listUsers);
+router.post("/users", verifyToken, requireAdmin, createUser);
+router.delete("/users/:id", verifyToken, requireAdmin, deleteUser);
 
 export default router;

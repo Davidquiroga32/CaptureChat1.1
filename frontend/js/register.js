@@ -104,7 +104,8 @@ class RegisterManager {
         this.registerBtn.textContent = "Creando...";
 
         try {
-            const userData = { user: username, password };
+            const roleInput = document.getElementById("role");
+            const userData = { user: username, password, role: roleInput ? roleInput.value : "WORKER" };
 
             const response = await fetch(`${API_BASE}/api/auth/register`, {
                 method: "POST",
@@ -123,7 +124,7 @@ class RegisterManager {
             this.form.reset();
 
             setTimeout(() => {
-                window.location.href = "login.html";
+                window.location.href = "index.html";
             }, 2000);
         } catch (error) {
             console.error("Error de conexión:", error);

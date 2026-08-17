@@ -163,6 +163,29 @@
     color: #6b7280;
 }
 
+.input-group select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 15px;
+    color: var(--text-dark);
+    background-color: #0a0a0a;
+    transition: var(--transition);
+    box-sizing: border-box;
+}
+
+.input-group select:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.input-group select option {
+    background-color: #0a0a0a;
+    color: var(--text-dark);
+}
+
 .input-hint {
     display: block;
     margin-top: 6px;
