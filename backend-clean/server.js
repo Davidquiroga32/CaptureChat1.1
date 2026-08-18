@@ -1,6 +1,7 @@
 // server.js
 import express from "express";
 import path from "path";
+import { fileURLToPath } from "url";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 
@@ -13,8 +14,14 @@ const app  = express();
 const PORT = process.env.PORT ? Number(process.env.PORT) : 8080;
 app.set("trust proxy", 1);
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const publicDir = path.join(__dirname, "public");
+
 // ── Seguridad: cabeceras HTTP ──────────────────────────────────────
+// Nota: se desactiva el CSP de helmet porque el frontend ya define su
+// propia política vía <meta http-equiv="Content-Security-Policy">.
 app.use(helmet({
+    contentSecurityPolicy: false,
     crossOriginResourcePolicy: { policy: "cross-origin" }, // permitir imágenes desde otro origen
 }));
 
@@ -55,9 +62,15 @@ const uploadLimiter = rateLimit({
 // ── Body parser ────────────────────────────────────────────────────
 app.use(express.json({ limit: "2mb" }));  // reducido: las imágenes van a Cloudinary directo
 
-// ── Rutas ──────────────────────────────────────────────────────────
-app.get("/", (req, res) => res.send("CaptureChat backend ✅"));
+// ── Estáticos del frontend (servidos desde el mismo backend) ────────
+app.use(express.static(publicDir, {
+    setHeaders(res, filePath) {
+        // El service worker no debe cachearse en el navegador
+        if (filePath.endsWith("sw.js")) res.setHeader("Cache-Control", "no-cache");
+    },
+}));
 
+// ── Rutas ──────────────────────────────────────────────────────────
 app.get("/api/health", (_req, res) => res.json({
     ok: true,
     message: "Backend CaptureChat funcionando",

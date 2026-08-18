@@ -18,7 +18,9 @@ services:
       - capturechat
 
   backend:
-    build: ./backend-clean
+    build:
+      context: .
+      dockerfile: backend-clean/Dockerfile
     restart: always
     depends_on:
       mysql:
@@ -33,14 +35,6 @@ services:
       B2_APP_KEY: ${B2_APP_KEY}
       B2_BUCKET: ${B2_BUCKET}
       B2_PUBLIC_URL: ${B2_PUBLIC_URL}
-    networks:
-      - capturechat
-
-  frontend:
-    build: ./frontend
-    restart: always
-    depends_on:
-      - backend
     networks:
       - capturechat
 

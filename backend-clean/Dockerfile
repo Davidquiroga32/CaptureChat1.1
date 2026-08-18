@@ -2,12 +2,13 @@ FROM node:20-bookworm-slim
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
-COPY prisma ./prisma
+COPY backend-clean/package.json backend-clean/package-lock.json ./
+COPY backend-clean/prisma ./prisma
 
 RUN npm ci
 
-COPY . .
+COPY backend-clean/ .
+COPY frontend/ ./public
 
 RUN npx prisma generate
 

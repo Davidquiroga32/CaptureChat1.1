@@ -1,0 +1,12 @@
+.git
+.env
+backend-clean/node_modules
+backend-clean/.env
+backend-clean/uploads
+backend-clean/generated
+frontend/Dockerfile
+frontend/nginx.conf
+frontend/.dockerignore
+frontend/.gitignore
+frontend/vercel.json
+frontend/.vercel
