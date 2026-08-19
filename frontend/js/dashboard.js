@@ -89,7 +89,6 @@ function initializeDashboard() {
     initializeSettings();
     initializeUsers();
     initializeModal();
-    setupUploadArea();
     loadDashboardData();
     loadGallery();
     loadKeywordTags();
@@ -122,11 +121,9 @@ function initializeTabs() {
 function initializeButtons() {
     const ids = {
         logoutBtn:     () => { if (confirm('¿Cerrar sesión?')) logout(); },
-        exportScreenshots: exportScreenshots,
         clearAllScreenshots: handleClearGallery,
         refreshKeywordTags: loadKeywordTags,
         addWordBtn:    addWord,
-        importWords:   importWords,
         addPageBtn:    addPage,
         importPages:   importPages,
         restoreBtn:    handleRestore,  // botón de recuperación
@@ -228,27 +225,6 @@ function closeScreenshotModal() {
     modal.classList.remove('show');
     const img = document.getElementById('modalImage');
     if (img) img.src = ""; // liberar memoria
-}
-
-// ===== Upload zone =====
-function setupUploadArea() {
-    const uploadZone = document.getElementById("uploadZone");
-    const fileInput  = document.getElementById("screenshotFile");
-    if (!uploadZone || !fileInput) return;
-
-    uploadZone.addEventListener("click",     () => fileInput.click());
-    uploadZone.addEventListener("dragover",  e => { e.preventDefault(); uploadZone.classList.add("dragover"); });
-    uploadZone.addEventListener("dragleave", e => { e.preventDefault(); uploadZone.classList.remove("dragover"); });
-    uploadZone.addEventListener("drop", e => {
-        e.preventDefault();
-        uploadZone.classList.remove("dragover");
-        const file = e.dataTransfer.files[0];
-        if (file) uploadScreenshot(file);
-    });
-    fileInput.addEventListener("change", e => {
-        const file = e.target.files[0];
-        if (file) uploadScreenshot(file);
-    });
 }
 
 // ===== Carga inicial =====
@@ -426,20 +402,6 @@ function searchScreenshots(e) {
         const text = ((item.dataset.filename||"")+" "+(item.dataset.device||"")+" "+(item.dataset.keyword||"")).toLowerCase();
         item.style.display = text.includes(query) ? "" : "none";
     });
-}
-
-async function exportScreenshots() {
-    try {
-        const res  = await authFetch(`${API_BASE}/api/screenshots`);
-        if (!res) return;
-        const data = await res.json();
-        if (!Array.isArray(data) || data.length === 0) return alert('No hay capturas');
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const a    = document.createElement('a');
-        a.href     = URL.createObjectURL(blob);
-        a.download = `capturas_${Date.now()}.json`;
-        a.click();
-    } catch (err) { console.error("Error exportando:", err); }
 }
 
 // ===== Etiquetas por keyword con filtro =====
@@ -696,21 +658,6 @@ async function handleRestore() {
     loadGallery(); loadKeywordTags(); updateStats();
 }
 
-async function uploadScreenshot(file) {
-    
-    const formData = new FormData();
-    formData.append("screenshot", file);
-    try {
-        const res = await fetch(`${API_BASE}/api/screenshots`, {
-            method: "POST", body: formData,
-            headers: { "Authorization": "Bearer " + getToken() },
-        });
-        if (!res.ok) { alert("Error al subir la captura"); return; }
-        loadGallery(); loadKeywordTags(); updateStats();
-    } catch (err) { alert("No se pudo subir la captura"); }
-}
-
-function importWords()  { alert('Función no implementada aún'); }
 function importPages()  { alert('Función no implementada aún'); }
 
 // ===== Configuración admin =====
